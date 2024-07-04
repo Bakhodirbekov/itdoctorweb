@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Form</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    /* Your custom styles here */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #f0f2f5;
+      background-image: url(../itdoctorweb/img/itdr.png);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+    .form-container h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #666;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      color: #333;
+      transition: border-color 0.3s ease;
+    }
+    .form-group input[type="file"] {
+      padding: 8px;
+    }
+    .form-group input[type="text"]:focus,
+    .form-group input[type="email"]:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #6A64F1;
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .form-group .file-label {
+      display: block;
+      margin-top: 8px;
+      font-size: 14px;
+      color: #666;
+    }
+    .form-group .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      margin-top: 8px;
+    }
+    .form-group .file-input-wrapper input[type="file"] {
+      font-size: 100px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+    .form-group .file-input-wrapper i {
+      position: relative;
+      top: 3px;
+      margin-right: 8px;
+    }
+    .form-submit {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .form-submit button {
+      background-color: #6A64F1;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .form-submit button:hover {
+      background-color: #524bd4;
+    }
+  </style>
+</head>
+<body >
+  <div class="form-container">
+    <h2>ItDoctorga habar qoldirish</h2>
+    <form id="tg" action="https://formbold.com/s/FORM_ID" method="POST">
+      <div class="form-group">
+        <label for="firstname">Ism</label>
+        <input type="text" id="firstname" name="firstname" placeholder="Enter your first name" required>
+      </div>
+      <div class="form-group">
+        <label for="lastname">Familya</label>
+        <input type="text" id="lastname" name="lastname" placeholder="Enter your last name" required>
+      </div>
+      <div class="form-group">
+        <label for="organization">Muasasa nomi</label>
+        <input type="text" id="organization" name="organization" placeholder="Enter your organization name" required>
+      </div>
+      <div class="form-group">
+        <label for="position">Joylashgan joyi</label>
+        <input type="text" id="position" name="position" placeholder="Enter your position" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Buzlish sababi</label>
+        <textarea id="message" name="message" placeholder="Nima bo'lgani haqida malumot..." required></textarea>
+      </div>
+      <div class="form-group">
+        <div class="file-input-wrapper">
+          <i class="fas fa-paperclip"></i>
+          <span class="file-label">Suratini yuboring</span>
+          <input type="file" id="upload" name="upload" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" multiple>
+        </div>
+      </div>
+      <div class="form-submit">
+        <button type="submit">Yuborish</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Telegram API Script -->
+  <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+  <script>
+    // Replace with your Telegram chat IDs
+    const CHAT_IDS = ["584323689", "1870911014"];
+    // Replace with your Telegram bot token
+    const TOKEN = "7147789967:AAH0GgOzPU_CtX3p_tCu9szc28BUPUqsqI4";
+    const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("tg").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        let message = "⚜️⚜️⚜️ Receiver ⚜️⚜️⚜️ \n";
+        message += `🗣 First Name: ${this.firstname.value} \n`;
+        message += `🗣 Last Name: ${this.lastname.value} \n`;
+        message += `🏢 Organization Name: ${this.organization.value} \n`;
+        message += `👔 Position: ${this.position.value} \n`;
+        message += `📄 Message: ${this.message.value} \n`;
+
+        CHAT_IDS.forEach((CHAT_ID) => {
+          axios.post(URI_API, {
+            chat_id: CHAT_ID,
+            parse_mode: "html",
+            text: message,
+          })
+          .then((response) => {
+            console.log(`Message sent successfully to ${CHAT_ID}`);
+          })
+          .catch((error) => {
+            console.error(`Error sending message to ${CHAT_ID}: ${error}`);
+          });
+        });
+
+        this.reset();
+      });
+    });
+  </script>
+  
+</body>
+</html>
